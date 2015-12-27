@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 from FatSecret import *
+from sys import exit
+import os
 
 # Check for beeminder_info.json, else get auth_token
 
@@ -12,6 +14,10 @@ if not os.path.isfile('beeminder_info.json'):
     info['calorie_goal_name'] = raw_input("Enter your calorie goal name: ")
     with open('beeminder_info.json', 'w') as outfile:
         json.dump(info, outfile)
+
+if not os.path.isfile('750words_info.json'):
+    print "Please run 'casperjs 750words.js' to get authentication information"
+    exit()
 
 
 with open('beeminder_info.json', 'r') as infile:
@@ -25,3 +31,8 @@ params = {'value':calories, 'auth_token': info['auth_token']}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
 r = requests.post(baseUrl + "/goals/" + info['calorie_goal_name'] + "/datapoints.json", params=params)
 
+words = int(os.popen("casperjs 750words.js").read())
+
+params = {'value':words, 'auth_token': info['auth_token']}
+baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
+r = requests.post(baseUrl + "/goals/" + '750' + "/datapoints.json", params=params)
