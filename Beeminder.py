@@ -31,7 +31,7 @@ params = {'value':calories, 'auth_token': info['auth_token']}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
 r = requests.post(baseUrl + "/goals/" + info['calorie_goal_name'] + "/datapoints.json", params=params)
 
-words = int(os.popen("casperjs 750words.js").read())
+words = int(os.popen("/usr/local/bin/casperjs 750words.js").read())
 
 params = {'value':words, 'auth_token': info['auth_token']}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']

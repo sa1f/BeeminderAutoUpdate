@@ -40,10 +40,11 @@ casper.start('https://750words.com/auth', function() {
 
 });
 
-casper.then(function() {
-	var saveCount = parseInt(this.fetchText("#save_message").match(/ [0-9]+ /));
-	this.echo(saveCount);
-})
+casper.waitForSelector('#save_message', function() {
+		var saveCount = parseInt(this.fetchText("#save_message").match(/ [0-9]+ /));
+		this.echo(saveCount);
+
+});
 
 casper.run();
 
