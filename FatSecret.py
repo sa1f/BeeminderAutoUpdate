@@ -56,8 +56,8 @@ session = OAuth1Session(info['key'],
 params = {'method': 'food_entries.get_month', 'format':'json'}
 result = session.get(fatsecret_api_url, params=params)
 data = result.json()
-# timestamp converted into days
-date = int(math.floor(time.time() / 60 / 60 / 24))
+# timestamp converted into days, oh btw, the 28800 is just converting from utc to pst
+date = int(math.floor((time.time() - 28800) / 60 / 60 / 24))
 
 # Get calories for day
 for item in data["month"]["day"]:
