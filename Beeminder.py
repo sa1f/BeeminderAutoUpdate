@@ -23,16 +23,16 @@ if not os.path.isfile('750words_info.json'):
 with open('beeminder_info.json', 'r') as infile:
     info = json.load(infile)
 
-params = {'value':weight, 'auth_token': info['auth_token']}
+params = {'value':weight, 'auth_token': info['auth_token'], 'requestid': date}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
 r = requests.post(baseUrl + "/goals/" + info['weight_goal_name'] + "/datapoints.json", params=params)
 
-params = {'value':calories, 'auth_token': info['auth_token']}
+params = {'value':calories, 'auth_token': info['auth_token'], 'requestid': date}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
 r = requests.post(baseUrl + "/goals/" + info['calorie_goal_name'] + "/datapoints.json", params=params)
 
 words = int(os.popen("/usr/local/bin/casperjs 750words.js").read())
 
-params = {'value':words, 'auth_token': info['auth_token']}
+params = {'value':words, 'auth_token': info['auth_token'], 'requestid': date}
 baseUrl = "https://www.beeminder.com/api/v1/" + "users/" + info['username']
 r = requests.post(baseUrl + "/goals/" + '750' + "/datapoints.json", params=params)
