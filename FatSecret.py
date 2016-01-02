@@ -6,6 +6,7 @@ import json
 import time
 import math
 import requests
+import datetime
 
 fatsecret_api_url = 'http://platform.fatsecret.com/rest/server.api'
 
@@ -59,16 +60,18 @@ data = result.json()
 # timestamp converted into days, oh btw, the 28800 is just converting from utc to pst
 date = int(math.floor((time.time() - 28800) / 60 / 60 / 24))
 
-# Get calories for day
-for item in data["month"]["day"]:
-    if item["date_int"] == str(date):
-        calories = item["calories"]
-    else:
-        calories = 0
+# If it's the first of the month, then follow this method
+if datetime.datetime.today().day == 1:
+    calories == data["month"]["day"]["calories"]
+# else...
+else:
+    for item in data["month"]["day"]:
+        if item["date_int"] == str(date):
+            calories = item["calories"]
+            break
 
+# Get Weight
 params = {'method': 'profile.get', 'format':'json'}
 result = session.get(fatsecret_api_url, params=params)
 data = result.json()
 weight = data["profile"]["last_weight_kg"]
-
-
